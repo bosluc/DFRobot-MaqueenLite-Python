@@ -1,10 +1,10 @@
 # DFRobot-Maqueenplus-Python
 
-Python library for maqueenplus robot developped by DFRobot. 
+Python library for maqueenplus robot developed by DFRobot. 
 
-This library is code version of the one proposed by DFRobot used for blocks coding. 
+This library is a python version of the one proposed by DFRobot used for block coding. 
 
-This version has been developped for students to let them play and enjoy coding this nice little robot.
+This version has been developed for students to let them play and enjoy coding this nice little robot.
 
 Link to DFRobot page : [https://www.dfrobot.com/product-2026.html]
 
@@ -12,7 +12,7 @@ Link to DFRobot page : [https://www.dfrobot.com/product-2026.html]
 
 - Create robot object
 
-Instanciate the robot object 
+Instantiate the robot object 
 
 ```python
 from microbit import *
@@ -86,7 +86,7 @@ Example:
 
 You can move three servos with the version of the library, S1, S2, S3.
 
-Function defintion:
+Function definition:
 ```python
     def servo(self, number, angle):
         """Move a servo for a given angle
@@ -142,7 +142,7 @@ Function defition:
         """Get the distance between the robot and an object.
 
         Returns:
-            [float]: distance to the object it one is detected else max value.
+            [float]: distance to the object if one is detected else max value.
         """
 ```
 
@@ -164,7 +164,7 @@ Function defition:
         """Get the linear speed of a given motor 
 
         Args:
-            mot (int): object attribut define in constructor (MG, MD)
+            mot (int): object attribute define in the constructor (MG, MD)
 
         Returns:
             [type]: [description]
