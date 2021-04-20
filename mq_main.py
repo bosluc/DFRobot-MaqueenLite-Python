@@ -1,4 +1,5 @@
 from microbit import *
+import machine
 from lib_robot_maqueen import Robot
 import time
 
