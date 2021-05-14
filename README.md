@@ -16,7 +16,7 @@ Instantiate the robot object
 
 ```python
 from microbit import *
-from mb_robot_maqueen import Robot
+from lib_robot_maqueen import Robot
 import time #can be removed if not used
 
 mq = Robot()
