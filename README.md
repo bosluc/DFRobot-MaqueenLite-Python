@@ -227,4 +227,4 @@ Example:
 
 
 # Updates 
-One major update that could be add soon concerns the rotation movements of the robot. In fact, when we ask the robot to move right of left no information is given concerning the angle to rotate. Only time.sleep(_) is used actually which is not accurate.
+One major update that should be added soon concerns the rotation movements of the robot. In fact, when we ask the robot to move right of left no information is given concerning the angle to rotate. Only time.sleep(_) is used actually which is not accurate.
