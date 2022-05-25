@@ -1,15 +1,16 @@
 import microbit
 import machine
+import struct
 import time
+I2caddr = 0x10
 
-
-class Robot:
+class MaqueenPlus:
     def __init__(self):
-        self._vit = 0
+        self._spd = 0
         microbit.i2c.init(freq=100000, sda=microbit.pin20, scl=microbit.pin19)
         # Motors
-        self.MG = 0
-        self.MD = 1
+        self.MT_L = 0
+        self.MT_R = 1
 
         # ServoMotors
         self.S1 = 1
@@ -17,16 +18,16 @@ class Robot:
         self.S3 = 3
 
         # RGB LED
-        self.RGB_G = 1
-        self.RGB_D = 2
-        self.RGB_G_D = 3
-        self.RED = 1,
-        self.GREEN = 2,
-        self.BLUE = 4,
-        self.YELLOW = 3,
-        self.PINK = 5,
-        self.CYAN = 6,
-        self.WHITE = 7,
+        self.RGB_L = 1
+        self.RGB_R = 2
+        self.RGB_ALL = 3
+        self.RED = 1
+        self.GREEN = 2
+        self.BLUE = 4
+        self.YELLOW = 3
+        self.PINK = 5
+        self.CYAN = 6
+        self.WHITE = 7
         self.OFF = 8
 
         # Line tracking sensors
@@ -37,136 +38,89 @@ class Robot:
         self.R2 = 4
         self.R3 = 6
 
-    def run(self, mot, sens, vit):
-        # mot left:0 ; mot right:1
-        # sens forward : 1; sens backward :2
-        # speed max :255; stop :0
+    def motorControl(self, mot, dir, spd):
+
         buf = bytearray(3)
-        if mot == self.MG:
+        if mot == self.MT_L:
             buf[0] = 0x00
         else:
             buf[0] = 0x02
-        buf[1] = sens
-        buf[2] = vit
-        microbit.i2c.write(0x10, buf)
+        buf[1] = dir
+        buf[2] = spd
+        microbit.i2c.write(I2caddr, buf)
 
     def servo(self, number, angle):
-        """Move a servo for a given angle
-
-        Args:
-            number (int): number of the servo to move
-            angle (int): rotating angle (min=0  max=180)
-        """
         buf = bytearray(3)
         if number == self.S1:
             buf[0] = 0x14
             buf[1] = angle
-            microbit.i2c.write(0x10, buf)
+            microbit.i2c.write(I2caddr, buf)
         elif number == self.S2:
             buf[0] = 0x15
             buf[1] = angle
-            microbit.i2c.write(0x10, buf)
+            microbit.i2c.write(I2caddr, buf)
         else:
             buf[0] = 0x16
             buf[1] = angle
-            microbit.i2c.write(0x10, buf)
+            microbit.i2c.write(I2caddr, buf)
 
     def RGBLight(self, rgbshow, color):
-        """Turn on/off the rbg light of your choice with the color you want.
-
-
-        Args:
-            rgbshow (int): rgb light object attribute defined in the constructor :
-                REB_G : left led,
-                REB_D : right led,
-                REB_G_D : center led
-
-            color (int): color of the led:
-                RED,GREEN,
-                BLUE,YELLOW,
-                PINK,CYAN,
-                WHITE, OFF
-        """
         buf = bytearray(3)
-        if rgbshow == self.RGB_G:
+        if rgbshow == self.RGB_L:
             buf[0] = 0x0B
             buf[1] = color
-            microbit.i2c.write(0x10, buf)
-        elif rgbshow == self.RGB_D:
+            microbit.i2c.write(I2caddr, buf)
+        elif rgbshow == self.RGB_R:
             buf[0] = 0x0C
             buf[1] = color
-            microbit.i2c.write(0x10, buf)
-        elif rgbshow == self.RGB_G_D:
+            microbit.i2c.write(I2caddr, buf)
+        elif rgbshow == self.RGB_ALL:
             buf[0] = 0x0B
             buf[1] = color
             buf[2] = color
-            microbit.i2c.write(0x10, buf)
+            microbit.i2c.write(I2caddr, buf)
 
     def stop(self):
-        """Stop the robot 
-        """
-        self.run(self.MG, 1, 0)
-        self.run(self.MD, 1, 0)
+        self.motorControl(self.MT_L, 1, 0)
+        self.motorControl(self.MT_R, 1, 0)
         microbit.display.show('S')
 
-    def direction(self, vit, dir):
-        """  
-        Move the robot along 4 axis :
-            * TD -> forward
-            * AR -> backward 
-            * G -> left
-            * D -> right 
+    def move(self, dir, spd):
+        if(dir == "F"):
+            self.motorControl(self.MT_L, 1, spd)
+            self.motorControl(self.MT_R, 1, spd)
 
-        Args:
-            vit(pwm) : 0 -> 255
-            dir(string) : "TD" or "AR" or "G" or "D"
-        """
+        elif(dir == "L"):
+            self.motorControl(self.MT_L, 1, spd)
+            self.motorControl(self.MT_R, 1, 0)
 
-        if(dir == "TD"):
-            self.run(0, 1, vit)
-            self.run(1, 1, vit)
+        elif(dir == "R"):
+            self.motorControl(self.MT_L, 1, 0)
+            self.motorControl(self.MT_R, 1, spd)
 
-        elif(dir == "D"):
-            self.run(0, 1, vit)
-            self.run(1, 1, 0)
-
-        elif(dir == "G"):
-            self.run(0, 1, 0)
-            self.run(1, 1, vit)
-
-        elif(dir == "AR"):
-            self.run(0, 2, vit)
-            self.run(1, 2, vit)
+        elif(dir == "B"):
+            self.motorControl(self.MT_L, 2, spd)
+            self.motorControl(self.MT_R, 2, spd)
 
     def ultrasonic(self):
-        """Get the distance between the robot and an object.
-
-        Returns:
-            [float]: distance to the object it one is detected else max value.
-        """
-        #trig_pin = pin1, echo_pin = pin2
-        microbit.pin1.write_digital(1)
+        #trig_pin = pin2, echo_pin = pin8
+        microbit.pin2.write_digital(1)
         time.sleep_ms(10)
-        microbit.pin1.write_digital(0)
+        microbit.pin2.write_digital(0)
 
-        microbit.pin2.read_digital()
-        t2 = machine.time_pulse_us(microbit.pin2, 1)
-        distance = 340.29 * (t2 / (2*1000000))
+        microbit.pin8.read_digital()
+        t2 = machine.time_pulse_us(microbit.pin8, 1, 15000)
+        if (t2 > 0):
+            distance = 340.29 * (t2 / (2*1000000))
+        else:
+            distance = 0.75
 
         return distance
 
     def readLineSensor(self, sensor_name):
-        """Read line tracking state for a given sensor
-
-        Args:
-            sensor_name (int): object attribut define in constructor 
-
-        Returns:
-            [int]: 0 : black / 1 : white 
-        """
-        microbit.i2c.write(0x10, b'\x1D')
+        microbit.i2c.write(I2caddr, b'\x1D')
         # 0x10 -> adresse / 1 -> lecture de 1 byte
-        patrol_y = microbit.i2c.read(0x10, 1)
+        patrol_y = microbit.i2c.read(I2caddr, 1)
         mark = -1
 
         if (sensor_name == self.L1):
@@ -202,31 +156,27 @@ class Robot:
 
         return mark
 
-    def motor_speed(self, mot):
-        """Get the linear speed of a given motor 
-
-        Args:
-            mot (int): object attribut define in constructor (MG, MD)
-
-        Returns:
-            [type]: [description]
-        """
-        microbit.i2c.write(0x10, b'\x00')
-        # 0x10 -> adresse / 4 -> lecture de 4 bytes
-        speed_x = microbit.i2c.read(0x10, 4)
+    def motorSpeed(self, mot):
+        microbit.i2c.write(I2caddr, b'\x00')
+        speed_x = microbit.i2c.read(I2caddr, 4)
         return_speed = -1
 
-        # 0 -> G / 1 -> D
-        if(mot == self.MG):
+        if(mot == self.MT_L):
             if(round(speed_x[1]) < 20 and round(speed_x[1]) != 0):
                 return_speed = round(speed_x[1]) + 255
             else:
                 return_speed = round(speed_x[1])
 
-        elif(mot == self.MD):
+        elif(mot == self.MT_R):
             if(round(speed_x[3]) < 20 and round(speed_x[3]) != 0):
                 return_speed = round(speed_x[3]) + 255
             else:
                 return_speed = round(speed_x[3])
 
         return return_speed
+
+    def getEncoders(self):
+        buf = bytearray(1)
+        buf[0] = 0x04
+        microbit.i2c.write(I2caddr, buf)
+        return struct.unpack('>HH', i2c.read(I2caddr, 4))
