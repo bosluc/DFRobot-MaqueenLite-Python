@@ -15,11 +15,12 @@ Link to DFRobot page : [https://www.dfrobot.com/product-2026.html]
 Instantiate the robot object 
 
 ```python
-from microbit import *
-from lib_robot_maqueen import Robot
+import microbit
+import lib_robot_maqueen as mqn
 import time #can be removed if not used
+import struct
 
-mq = Robot()
+mq = mqn.MaqueenPlus()
 ```
 
 # Methods 
@@ -27,43 +28,43 @@ mq = Robot()
 - Move the robot
 
 Move the robot along 4 axis :
-    * TD -> forward
-    * AR -> backward 
-    * G -> left
-    * D -> right 
+    * F -> forward
+    * B -> backward 
+    * L -> left
+    * R -> right 
 
 Function definition :
 ```python
-def direction(speed, dir):
+def move(speed, dir):
     """
     speed(pwm) : 0 -> 255
-    dir(string) : "TD" or "AR" or "G" or "D"
+    dir(string) : "F" or "B" or "L" or "R"
     """
 ```
 
 Example :
 ```python 
-    mq.direction(70, "TD")
+    mq.move(70, "F")
     time.sleep(1) #wait for 1s
-    mq.direction(70, "D")
+    mq.move(70, "R")
 ```
 
-To move the robot you can also use the run method.
+To move the robot you can also use the motorControl method.
 
 Function definition :
 ```python
-def run(self, mot, sens, vit):
+def motorControl(self, mot, dir, spd):
     """
-        mot left: MG ; mot right: MD
-        sens (forward) : 1; sens (backward) :2
-        vit max :255; arret :0
+        mot left: MT_L ; mot right: MT_R
+        dir (forward): 1; dir (backward): 2
+        spd max: 255; stop: 0
     """
 ```
 
 Example :
 ```python 
-    mq.run(mq.MG,2,50)
-    mq.run(mq.MD,2,70)
+    mq.motorControl(mq.MT_L,2,50)
+    mq.motorControl(mq.MT_R,2,70)
 ```
 
 - Stop 
