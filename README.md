@@ -18,7 +18,6 @@ Instantiate the robot object
 import microbit
 import lib_robot_maqueen as mqn
 import time #can be removed if not used
-import struct
 
 mq = mqn.MaqueenPlus()
 ```
