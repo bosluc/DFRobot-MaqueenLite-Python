@@ -161,7 +161,7 @@ INFO : This method has no been tested yet but you can test it and set an issue f
 
 Function defition:
 ```python
-    def motor_speed(self, mot):
+    def motorSpeed(self, mot):
         """Get the linear speed of a given motor 
 
         Args:
@@ -175,10 +175,10 @@ Function defition:
 Example:
 
 ```python
-    mq.direction(70, "TD")
+    mq.move(70, "F")
     time.sleep(1) #delay is necessary. Otherwise the robot read the speed before the motor started.
-    vitesse = mq.vitesse_moteur(mq.MG)
-    display.show(str(vitesse))
+    spd = mq.motorSpeed(mq.MT_L)
+    display.show(str(spd))
     time.sleep(5)
     mq.stop()
 ```
@@ -187,9 +187,9 @@ Example:
 Turn on/off the rbg light of your choice with the color you want.
 
 * RGB LED choice:
-REB_G : left led,
-REB_D : right led,
-REB_G_D : center led
+RGB_L : left led,
+RGB_R : right led,
+RGB_ALL : both leds
 
 * Color choice:
 RED,
