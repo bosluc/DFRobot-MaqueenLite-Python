@@ -209,9 +209,9 @@ Function declaration:
 
         Args:
             rgbshow (int): rgb light object attribute defined in the constructor :
-                REB_G : left led,
-                REB_D : right led,
-                REB_G_D : center led
+                RGB_L : left led,
+                RGB_R : right led,
+                RGB_ALL : both leds
 
             color (int): color of the led:
                 RED,GREEN,
@@ -223,7 +223,7 @@ Function declaration:
 
 Example:
 ```python
-    mq.RGBLight(mq.RGB_G,mq.RED)
+    mq.RGBLight(mq.RGB_L,mq.RED)
 ```
 
 
