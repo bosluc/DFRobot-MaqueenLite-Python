@@ -1,6 +1,6 @@
 import microbit
 import machine
-from lib_robot_maqueen as mqn
+import lib_robot_maqueen as mqn
 import time
 
 mq = mqn.MaqueenPlus()
