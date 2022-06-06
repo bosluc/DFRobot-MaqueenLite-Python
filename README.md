@@ -106,37 +106,35 @@ Example:
 
 - Line tracking sensor
 
-Read line tracking sensor state for a given sensor.
-All the functions proposed by DFRobot have not been implemented.
+Read line tracking sensor state.
+Not all the functions proposed by DFRobot have been implemented.
 It is up to you to do so.
 
-Function declaration:
+Function definition:
 ```python
-    def readLineSensor(self, sensor_name):
-        """Read line tracking state for a given sensor
-
-        Args:
-            sensor_name (int): object attribut define in constructor (R1,R2,R3,L1,L2,L3)
+    def getLine(self):
+        """Read line tracking state
 
         Returns:
-            [int]: 0 : black / 1 : white 
+            dictionary of [int]: 0 : white / 1 : black
+            valid keys for the dictionary are: "L3", "L2", "L1", "R1", "R2", "R3"
         """
 ```
 
 Example:
+
 ```python
-    #Read R1 (Right #1) line tracking sensor state
-    state = mq.readLineSensor(mq.R1)
-    
-    #you can display the value by doing :
-    #display.show(state)
+    #Read line tracking sensor state
+    line = mq.getLine()
+    print(line["L1"])
+    print(line["R1"])
 ```
 
 - Ultrasonic sensor 
 
 Get the distance between the robot and an object.
 
-Function defition:
+Function definition:
 ```python
     def ultrasonic(self):
         """Get the distance between the robot and an object.
