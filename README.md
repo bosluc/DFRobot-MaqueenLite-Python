@@ -223,6 +223,41 @@ Example:
     mq.RGBLight(mq.RGB_L,mq.RED)
 ```
 
+- Read Encoders 
+Read the values of the wheel encoders
+
+Function definition:
+```python
+    def getEncoders(self):
+        """Read the values of the wheel encoders
+        
+        Returns:
+            [tuple of 2 int's]: Value of the left encoder and right encoder
+        """
+```
+
+Example:
+```python
+    encoders = mq.getEncoders()
+    print(encoders[0])
+    print(encoders[1])
+```
+
+- Clear Encoders 
+Reset the values of the wheel encoders to 0
+
+Function definition:
+```python
+    def clearEncoders(self):
+        """Reset the values of the wheel encoders to 0
+        """
+```
+
+Example:
+```python
+    encoders = mq.clearEncoders()
+```
+
 
 # Updates 
 One major update that should be added soon concerns the rotation movements of the robot. In fact, when we ask the robot to move right of left no information is given concerning the angle to rotate. Only time.sleep(_) is used actually which is not accurate.
