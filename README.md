@@ -24,8 +24,7 @@ mq = mqn.MaqueenPlus()
 
 # Methods 
 
-- Move the robot
-
+### Move the robot
 Move the robot along 4 axis :
     * F -> forward
     * B -> backward 
@@ -66,8 +65,7 @@ Example :
     mq.motorControl(mq.MT_R,2,70)
 ```
 
-- Stop 
-
+### Stop 
 Stop the robot 
 
 Function definition:
@@ -82,8 +80,7 @@ Example:
     mq.stop()
 ```
 
-- Control ServoMotor
-
+### Control ServoMotor
 You can move three servos with the version of the library, S1, S2, S3.
 
 Function definition:
@@ -104,8 +101,7 @@ Example:
     mq.servo(mq.S3,0)
 ```
 
-- Line tracking sensor
-
+### Line tracking sensor
 Read line tracking sensor state.
 Not all the functions proposed by DFRobot have been implemented.
 It is up to you to do so.
@@ -130,8 +126,7 @@ Example:
     print(line["R1"])
 ```
 
-- Ultrasonic sensor 
-
+### Ultrasonic sensor 
 Get the distance between the robot and an object.
 
 Function definition:
@@ -150,8 +145,7 @@ Example:
     distance = mq.ultrasonic()
 ```
 
-- Motor Speed 
-
+### Motor Speed 
 Get the linear speed of a given motor. 
 INFO : This method has no been tested yet but you can test it and set an issue for feedback. 
 
@@ -180,7 +174,7 @@ Example:
     mq.stop()
 ```
 
-- RGB Lights
+### RGB Lights
 Turn on/off the rbg light of your choice with the color you want.
 
 * RGB LED choice:
@@ -223,7 +217,7 @@ Example:
     mq.RGBLight(mq.RGB_L,mq.RED)
 ```
 
-- Read Encoders 
+### Read Encoders
 Read the values of the wheel encoders
 
 Function definition:
@@ -243,7 +237,7 @@ Example:
     print(encoders[1])
 ```
 
-- Clear Encoders 
+### Clear Encoders 
 Reset the values of the wheel encoders to 0
 
 Function definition:
