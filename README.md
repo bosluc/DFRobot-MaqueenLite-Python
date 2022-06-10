@@ -249,7 +249,7 @@ Function definition:
 
 Example:
 ```python
-    encoders = mq.clearEncoders()
+    mq.clearEncoders()
 ```
 
 
