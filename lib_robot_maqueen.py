@@ -151,3 +151,9 @@ class MaqueenPlus:
         buf[0] = 0x04
         mb.i2c.write(adr, buf)
         return struct.unpack('>HH', mb.i2c.read(adr, 4))
+
+    def clearEncoders(self):
+        buf = bytearray(5)
+        buf[0] = 0x04
+        buf[1] = buf[2] = buf[3] = buf[4] = 0x00
+        mb.i2c.write(adr, buf)
