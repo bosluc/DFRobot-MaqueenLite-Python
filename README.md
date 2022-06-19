@@ -1,6 +1,6 @@
 # DFRobot-Maqueenplus-Python
 
-Python library for maqueenplus robot developed by DFRobot. 
+Python library for the Maqueen Plus robot developed by DFRobot. 
 
 This library is a python version of the one proposed by DFRobot used for block coding. 
 
@@ -26,10 +26,10 @@ mq = mqn.MaqueenPlus()
 
 ### Move the robot
 Move the robot along 4 axis :
-    * F -> forward
-    * B -> backward 
-    * L -> left
-    * R -> right 
+- F -> forward
+- B -> backward 
+- L -> left
+- R -> right 
 
 Function definition :
 ```python
@@ -63,6 +63,32 @@ Example :
 ```python 
     mq.motorControl(mq.MT_L,2,50)
     mq.motorControl(mq.MT_R,2,70)
+```
+
+### Move the robot for a precise distance
+MaqueenPlus is equipped with wheel encoders. The function goto uses the wheel encoders to turn or move the robot over an exact number of encoder ticks:
+- F -> drive a number of encoder ticks forward
+- L -> turn left for a number of encoder ticks
+- R -> turn right for a number of encoder ticks
+
+Function definition :
+```python
+def goto(self, dir, spd, dist):
+    """
+        mot left: MT_L ; mot right: MT_R
+        dir(string) : "F" or "L" or "R"
+        spd max: 255; stop: 0
+        dist: the number of encoder ticks the robot should move
+    """
+```
+
+Example :
+```python
+    # drive forward with PWM speed 200 for 400 encoder ticks
+    mq.goto("F", 200, 400)
+
+    # turn left with PWM speed 70 for 144 ticks (about 180 degrees)
+    mq.goto("L", 70, 144)
 ```
 
 ### Stop 
@@ -127,15 +153,19 @@ Example:
 ```
 
 ### Ultrasonic sensor 
-Get the distance between the robot and an object.
+Get the distance between the robot and an object. An optional argument maxDist was added so you can choose the range of the sensor, which can be important to limit delays in your program. The default setting is 0.4 meters.
 
 Function definition:
 ```python
-    def ultrasonic(self):
+    def ultrasonic(self,maxDist=0.4):
         """Get the distance between the robot and an object.
 
+        Args:
+            [float, optional] The maximum distance in meters
+                              If function is called with no arguments, defaults to 0.4
+
         Returns:
-            [float]: distance to the object if one is detected else max value.
+            [float]: distance to the object if one is detected, else max value.
         """
 ```
 
@@ -143,6 +173,7 @@ Example:
 
 ```python
     distance = mq.ultrasonic()
+    distance = mq.ultrasonic(0.8)
 ```
 
 ### Motor Speed 
@@ -150,7 +181,7 @@ Get the linear speed of a given motor.
 INFO : This method has no been tested yet but you can test it and set an issue for feedback. 
 
 
-Function defition:
+Function definition:
 ```python
     def motorSpeed(self, mot):
         """Get the linear speed of a given motor 
@@ -175,7 +206,7 @@ Example:
 ```
 
 ### RGB Lights
-Turn on/off the rbg light of your choice with the color you want.
+Turn on/off the rgb light of your choice with the color you want.
 
 * RGB LED choice:
 RGB_L : left led,
@@ -252,6 +283,6 @@ Example:
     mq.clearEncoders()
 ```
 
-
-# Updates 
-One major update that should be added soon concerns the rotation movements of the robot. In fact, when we ask the robot to move right of left no information is given concerning the angle to rotate. Only time.sleep(_) is used actually which is not accurate.
+### Version history
+- Version 1.0: Initial version
+- Version 2.0: Compacted code style (short variable names, delete unnecessary space characters) to work around memory constraints and find space for adding functionality. Added goto function for moving the robot with use of the decoders. Added optional maximum distance argument to the ultrasonic function. Should still work with the micro:bit V1. if more functions to this library are added, you will probably need to equip your Maqueen Plus with the micro:bit V2. I am considering making a separate version of this library for the micro:bit V2
