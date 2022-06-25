@@ -110,7 +110,7 @@ class MaqueenPlus:
   def ultrasonic(self, maxDist=0.4):
   # pins: trig=2, echo=8
     mb.pin2.write_digital(1)
-    time.sleep_ms(10)
+    time.sleep_us(10)
     mb.pin2.write_digital(0)
     mb.pin8.read_digital()
     timeOut=int(maxDist*2*1000000/340.29)
