@@ -1,4 +1,4 @@
-# DFRobot-Maqueenplus-Python
+# DFRobot-MaqueenLite-Python
 
 Python library for the Maqueen Plus robot developed by DFRobot. 
 
@@ -7,6 +7,9 @@ This library is a python version of the one proposed by DFRobot used for block c
 This version has been developed for students to let them play and enjoy coding this nice little robot.
 
 Link to DFRobot page : [https://www.dfrobot.com/product-2026.html]
+
+Forked from 
+Will be adapted from MaQueenPlus to MaQueenLite, however this is NOT yet done
 
 # Usage 
 
