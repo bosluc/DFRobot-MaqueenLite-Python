@@ -8,7 +8,8 @@ This version has been developed for students to let them play and enjoy coding t
 
 Link to DFRobot page : [https://www.dfrobot.com/product-2026.html]
 
-Forked from 
+Forked from [https://github.com/HuttNerd/DFRobot-Maqueenplus-Python]
+
 Will be adapted from MaQueenPlus to MaQueenLite, however this is NOT yet done
 
 # Usage 
