@@ -7,10 +7,10 @@ mq = mqn.MaqueenPlus()
 
 #### Example #####
 
-mq.move(70, "F")
-time.sleep(1)
-mq.move(70, "R")
+while True:
+  mq.move("F", 70)
+  time.sleep(1)
+  mq.move("R", 70)
+  time.sleep(1)
 
 ##################
-
-# add your code here... :-)
